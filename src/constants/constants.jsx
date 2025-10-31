@@ -2,54 +2,25 @@ export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   backgroundImg: "",
   title: "selecciona los items correctos",
-  items: [],
-  itemsNumber: 6,
-  itemsType: "LETTERS",
-  rounds: 1,
+  rounds: [
+    [{ label: "Item 1" }, { label: "Item 2" }, { label: "Item 3" }],
+    [
+      { label: "Item A" },
+      { label: "Item B" },
+      { label: "Item C" },
+      { label: "Item D" },
+      { label: "Item E" },
+      { label: "Item F" },
+    ],
+    [
+      { img: "https://png.pngtree.com/png-clipart/20220111/original/pngtree-pear-png-image_7086642.png" },
+      { img: "https://cdn.pixabay.com/photo/2016/02/23/17/42/orange-1218158_1280.png" },
+      {
+        img: "https://images.vexels.com/media/users/3/131878/isolated/preview/384b201e3c4076950837a47f417fcddf-icono-de-manzana-roja.png",
+      },
+    ],
+  ],
 };
-
-export const ITEMSTYPE = {
-  LETTERS: "LETTERS",
-  NUMBERS: "NUMBERS",
-  SHAPES: "SHAPES",
-  COLORED_SHAPES: "COLORED_SHAPES",
-  COLORS: "COLORS",
-  CUSTOM: "CUSTOM",
-};
-
-export const ICONS = [
-  "Triangle",
-  "Square",
-  "Circle",
-  "Rhombus",
-  "Spades",
-  "Hearts",
-  "Clubs",
-  "Diamonds",
-  "Star",
-  "Moon",
-  "Sun",
-  "Puzzle",
-  "Pentagon",
-  "Hexagon",
-];
-
-export const COLORS = [
-  "Red",
-  "Green",
-  "Blue",
-  "Yellow",
-  "Orange",
-  "Pink",
-  "Cyan",
-  "Purple",
-  "#8B4513", //brown
-  "Black",
-  "Gray",
-  "White",
-  "Turquoise",
-  "Lime",
-];
 
 export const THEMES = {
   STANDARD: "STANDARD",

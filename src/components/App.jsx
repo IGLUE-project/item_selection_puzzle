@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import "./../assets/scss/app.scss";
 
-import { DEFAULT_APP_SETTINGS, ESCAPP_CLIENT_SETTINGS, ITEMSTYPE, THEME_ASSETS } from "../constants/constants.jsx";
+import { DEFAULT_APP_SETTINGS, ESCAPP_CLIENT_SETTINGS, THEME_ASSETS } from "../constants/constants.jsx";
 import { GlobalContext } from "./GlobalContext.jsx";
 import MainScreen from "./MainScreen.jsx";
 
@@ -89,32 +89,6 @@ export default function App() {
 
     // Merge _appSettings with DEFAULT_APP_SETTINGS_SKIN to obtain final app settings
     _appSettings = Utils.deepMerge(DEFAULT_APP_SETTINGS_SKIN, _appSettings);
-
-    switch (_appSettings.itemsType) {
-      case ITEMSTYPE.NUMBERS:
-        _appSettings.items = Array.from({ length: _appSettings.itemsNumber }, (_, j) => ({ label: String(j + 1) }));
-        break;
-      case ITEMSTYPE.COLORS:
-        _appSettings.items = _appSettings.items = Array.from({ length: _appSettings.itemsNumber }, (_, j) => ({
-          areaColor: COLORS[j % COLORS.length] || "",
-        }));
-        break;
-      case ITEMSTYPE.SHAPES:
-        _appSettings.items = _appSettings.items = Array.from({ length: _appSettings.itemsNumber }, (_, j) => ({
-          ico: ICONS[j % ICONS.length] || "",
-        }));
-        break;
-      case ITEMSTYPE.COLORED_SHAPES:
-        _appSettings.items = _appSettings.items = Array.from({ length: _appSettings.itemsNumber }, (_, j) => ({
-          ico: ICONS[j % ICONS.length] || "",
-          colorIco: COLORS[j % COLORS.length],
-        }));
-        break;
-      default:
-        _appSettings.items = _appSettings.items = Array.from({ length: _appSettings.itemsNumber }, (_, j) => ({
-          label: String.fromCharCode(65 + (j % 26)),
-        }));
-    }
 
     //Init internacionalization module
     I18n.init(_appSettings);
