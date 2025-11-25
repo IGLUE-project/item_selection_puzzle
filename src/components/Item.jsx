@@ -10,7 +10,8 @@ export default function Item({ index, item, isSelected, onToggle, size, nItems, 
 
   const [containerSize, setContainerSize] = useState(0);
 
-  const itemSize = Math.max(150, (containerSize * 0.5) / ((nItems / nItems) * 1.2));
+  const itemsPerRow = Math.ceil(Math.sqrt(nItems) * 0.6);
+  const itemSize = containerSize / itemsPerRow;
 
   const padding = itemSize * 0.06;
   const contentPadding = itemSize * 0.04;
