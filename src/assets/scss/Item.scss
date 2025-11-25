@@ -73,6 +73,12 @@
   transition: transform 0.3s ease, text-shadow 0.3s ease;
   word-break: break-word;
   max-width: 95%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 .item-card:hover .item-card__label {

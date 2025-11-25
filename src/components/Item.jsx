@@ -1,25 +1,36 @@
+import { useEffect, useState } from "react";
 import useSound from "../hooks/useSound";
 import "./../assets/scss/Item.scss";
 
-export default function Item({ index, item, isSelected, onToggle, size, nItems }) {
+export default function Item({ index, item, isSelected, onToggle, size, nItems, areaH, containerRef }) {
   const selectSound = useSound("/sounds/select_item.wav");
 
   const hasImage = typeof item?.img === "string" && item.img.trim() !== "";
   const label = typeof item?.label === "string" ? item.label : "";
 
-  const minItemSize = 60;
-  const itemsPerRow = Math.max(1, Math.floor(size.width / 200));
+  const [containerSize, setContainerSize] = useState(0);
 
-  const itemSizeByWidth = size.width / itemsPerRow;
-
-  const itemSizeByHeight = size.height * 0.75;
-
-  const itemSize = Math.max(minItemSize, Math.min(itemSizeByWidth, itemSizeByHeight));
+  const itemSize = (containerSize * 0.5) / ((nItems / nItems) * 1.2);
 
   const padding = itemSize * 0.06;
   const contentPadding = itemSize * 0.04;
   const imageMaxWidth = itemSize * 0.7;
   const fontSize = Math.max(10, itemSize * 0.12);
+
+  useEffect(() => {
+    const el = containerRef.current;
+
+    if (!el) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      const { width, height } = el.getBoundingClientRect();
+      setContainerSize(Math.min(width * 0.3, height)); // <= AQUÍ tienes el valor correcto
+    });
+
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   const handleClick = () => {
     if (typeof onToggle === "function") {

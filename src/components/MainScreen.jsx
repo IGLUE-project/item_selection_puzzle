@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./../assets/scss/MainScreen.scss";
 import Item from "./Item";
 import useSound from "../hooks/useSound";
@@ -10,13 +10,16 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
     }
     return [Array.isArray(config?.items) ? config.items : []];
   }, [config?.rounds, config?.items]);
+
   const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [itemsAreaH, setItemsAreaH] = useState(window.innerHeight * 0.6);
   const [currentRound, setCurrentRound] = useState(0);
   const [roundSelections, setRoundSelections] = useState(() => rounds.map(() => []));
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const containerRef = useRef(null);
 
   const items = rounds[currentRound] || [];
   const selectedPositions = roundSelections[currentRound] || [];
@@ -40,18 +43,10 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
 
   useEffect(() => {
     const handleResize = () => {
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
-      const aspectRatio = 16 / 9;
-      let width = windowWidth * 0.9;
-      let height = width / aspectRatio;
-
-      if (height > windowHeight * 0.9) {
-        height = windowHeight * 0.9;
-        width = height * aspectRatio;
-      }
-
+      setItemsAreaH(height * 0.6);
       setSize({ width, height });
     };
     handleResize();
@@ -112,18 +107,20 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
       style={{ backgroundImage: config?.backgroundImg ? `url(${config.backgroundImg})` : "none" }}
     >
       <div className="content_wrapper">
-        {config?.title && (
-          <h1 className="title" style={{ fontSize: size.width * 0.04 }}>
-            {config.title}
-          </h1>
-        )}
-        {config?.rounds?.length > 1 && (
-          <div className="round_indicator" style={{ fontSize: size.width * 0.025 }}>
-            Ronda: {currentRound + 1}/{rounds.length}
-          </div>
-        )}
+        <div style={{ height: size.height * 0.15 }}>
+          {config?.title && (
+            <h1 className="title" style={{ fontSize: size.width * 0.015 + size.height * 0.05 }}>
+              {config.title}
+            </h1>
+          )}
+          {config?.rounds?.length > 1 && (
+            <div className="round_indicator" style={{ fontSize: size.width * 0.005 + size.height * 0.03 }}>
+              Ronda: {currentRound + 1}/{rounds.length}
+            </div>
+          )}
+        </div>
         {config?.instructions && <p className="instructions">{config.instructions}</p>}
-        <div className="items_wrapper">
+        <div ref={containerRef} className="items_wrapper" style={{ height: size.height * 0.6 }}>
           {items.map((item, index) => (
             <Item
               key={index}
@@ -133,18 +130,22 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
               onToggle={handleToggle}
               size={size}
               nItems={items.length}
+              areaH={itemsAreaH}
+              containerRef={containerRef}
             />
           ))}
         </div>
         <div
           className="controls"
           style={{
-            padding: size.width * 0.05,
-            paddingTop: size.width * 0.01,
-            paddingBottom: size.width * 0.01,
-            fontSize: size.width * 0.02,
-            gap: size.width * 0.02,
-            borderRadius: size.width * 0.02,
+            paddingLeft: "15%",
+            paddingRight: "15%",
+            paddingTop: size.height * 0.01,
+            paddingBottom: size.height * 0.01,
+            fontSize: size.height * 0.02,
+            gap: size.height * 0.02,
+            borderRadius: size.height * 0.02,
+            height: size.height * 0.07,
           }}
         >
           <button
@@ -154,7 +155,7 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
               handleSend();
             }}
             disabled={hasSubmitted}
-            style={{ padding: size.width * 0.01, borderRadius: size.width * 0.01 }}
+            style={{ padding: "2% 20%", borderRadius: size.height * 0.01 }}
           >
             Enviar
           </button>
@@ -165,7 +166,7 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
               handleReset();
             }}
             disabled={hasSubmitted}
-            style={{ padding: size.width * 0.01, borderRadius: size.width * 0.01 }}
+            style={{ padding: "2% 20%", borderRadius: size.height * 0.01 }}
           >
             Resetear
           </button>
