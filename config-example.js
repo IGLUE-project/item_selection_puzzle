@@ -2,8 +2,11 @@
 
 export let ESCAPP_APP_SETTINGS = {
   //Settings that can be specified by the authors
-  skin: "STANDARD", //skin can be "STANDARD", "RETRO" or "FUTURISTIC".
-  // backgroundImg: "NONE", //background can be "NONE" or a URL.
+  // backgroundImg: "", //background can be "NONE" or a URL.
+  message: "¡Has superado el reto! presiona continuar para seguir jugando.",
+  title: "selecciona los items correctos",
+  actionAfterSolve: "SHOW_MESSAGE", //actionAfterSolve can be "NONE" or "SHOW_MESSAGE".
+  //Settings that will be automatically specified by the Escapp server
   rounds: [
     [{ label: "Item 1" }, { label: "Item 2" }, { label: "Item 3" }],
     [
@@ -14,7 +17,7 @@ export let ESCAPP_APP_SETTINGS = {
       { label: "Item E" },
       { label: "Item F" },
       { label: "Item A" },
-      { label: "Item aaaaaaaaaaaaaaaaaaaaaa" },
+      { label: "Item aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
       { label: "Item C" },
       { label: "Item D" },
       { label: "Item E" },

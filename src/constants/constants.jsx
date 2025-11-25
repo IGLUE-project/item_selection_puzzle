@@ -3,6 +3,7 @@ export const DEFAULT_APP_SETTINGS = {
   backgroundImg: "",
   title: "selecciona los items correctos",
   rounds: [],
+  message: "¡Has superado el reto! presiona continuar para seguir jugando.",
 };
 
 export const THEMES = {

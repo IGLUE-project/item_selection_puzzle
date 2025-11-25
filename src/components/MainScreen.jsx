@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import "./../assets/scss/MainScreen.scss";
 import Item from "./Item";
+import MessageScreen from "./MessageScreen";
 import useSound from "../hooks/useSound";
+import { GlobalContext } from "./GlobalContext";
 
-export default function MainScreen({ config, sendResult, solved, solvedTrigger }) {
+export default function MainScreen({ config, sendResult, submitPuzzleSolution, solved, solvedTrigger }) {
+  const { I18n } = useContext(GlobalContext);
   const rounds = useMemo(() => {
     if (Array.isArray(config?.rounds) && config.rounds.length > 0) {
       return config.rounds;
@@ -115,7 +118,8 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
           )}
           {config?.rounds?.length > 1 && (
             <div className="round_indicator" style={{ fontSize: size.width * 0.005 + size.height * 0.03 }}>
-              Ronda: {currentRound + 1}/{rounds.length}
+              {I18n.getTrans("i.rounds")}
+              {currentRound + 1}/{rounds.length}
             </div>
           )}
         </div>
@@ -138,8 +142,8 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
         <div
           className="controls"
           style={{
-            paddingLeft: "15%",
-            paddingRight: "15%",
+            paddingLeft: "10%",
+            paddingRight: "10%",
             paddingTop: size.height * 0.01,
             paddingBottom: size.height * 0.01,
             fontSize: size.height * 0.02,
@@ -155,9 +159,9 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
               handleSend();
             }}
             disabled={hasSubmitted}
-            style={{ padding: "2% 20%", borderRadius: size.height * 0.01 }}
+            style={{ padding: "2% 10%", borderRadius: size.height * 0.01 }}
           >
-            Enviar
+            {I18n.getTrans("i.send")}
           </button>
           <button
             type="button"
@@ -166,11 +170,14 @@ export default function MainScreen({ config, sendResult, solved, solvedTrigger }
               handleReset();
             }}
             disabled={hasSubmitted}
-            style={{ padding: "2% 20%", borderRadius: size.height * 0.01 }}
+            style={{ padding: "2% 10%", borderRadius: size.height * 0.01 }}
           >
-            Resetear
+            {I18n.getTrans("i.reset")}
           </button>
         </div>
+      </div>
+      <div className="victory">
+        <MessageScreen sendSolution={submitPuzzleSolution} />
       </div>
     </div>
   );

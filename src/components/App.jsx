@@ -13,7 +13,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [fail, setFail] = useState(false);
   const [solved, setSolved] = useState(false);
+  const [parsedSolution, setParsedSolution] = useState("");
   const [solvedTrigger, setSolvedTrigger] = useState(0);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     //Init Escapp client
@@ -107,30 +109,31 @@ export default function App() {
   }
 
   function checkResult(_solution) {
+    setParsedSolution(_solution);
     escapp.checkNextPuzzle(_solution, {}, (success, erState) => {
       Utils.log("Check solution Escapp response", success, erState);
+      setSolved(success);
+      setSolvedTrigger((prev) => prev + 1);
       if (success) {
         try {
-          setSolved(success);
-          setSolvedTrigger((prev) => prev + 1);
-
-          setTimeout(() => {
+          if (appSettings.actionAfterSolve === "SHOW_MESSAGE") {
+            setShowMessage(true);
+          } else {
             submitPuzzleSolution(_solution);
-          }, 2000);
+          }
         } catch (e) {
           Utils.log("Error in checkNextPuzzle", e);
         }
       } else {
-        setSolved(success);
-        setSolvedTrigger((prev) => prev + 1);
       }
     });
   }
   function submitPuzzleSolution(_solution) {
-    Utils.log("Submit puzzle solution", _solution);
+    const sol = _solution ? _solution : parsedSolution;
+    Utils.log("Submit puzzle solution", sol);
 
-    escapp.submitNextPuzzle(_solution, {}, (success, erState) => {
-      Utils.log("Solution submitted to Escapp", _solution, success, erState);
+    escapp.submitNextPuzzle(sol, {}, (success, erState) => {
+      Utils.log("Solution submitted to Escapp", sol, success, erState);
     });
   }
 
@@ -141,9 +144,15 @@ export default function App() {
         appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""
       }`}
     >
-      <div className={`main-background ${fail ? "fail" : ""}`}>
+      <div className={`main-background ${showMessage ? "correct" : ""}`}>
         {!loading && (
-          <MainScreen config={appSettings} sendResult={checkResult} solved={solved} solvedTrigger={solvedTrigger} />
+          <MainScreen
+            config={appSettings}
+            sendResult={checkResult}
+            submitPuzzleSolution={submitPuzzleSolution}
+            solved={solved}
+            solvedTrigger={solvedTrigger}
+          />
         )}
       </div>
     </div>

@@ -10,7 +10,7 @@ export default function Item({ index, item, isSelected, onToggle, size, nItems, 
 
   const [containerSize, setContainerSize] = useState(0);
 
-  const itemSize = (containerSize * 0.5) / ((nItems / nItems) * 1.2);
+  const itemSize = Math.max(150, (containerSize * 0.5) / ((nItems / nItems) * 1.2));
 
   const padding = itemSize * 0.06;
   const contentPadding = itemSize * 0.04;
@@ -24,7 +24,7 @@ export default function Item({ index, item, isSelected, onToggle, size, nItems, 
 
     const resizeObserver = new ResizeObserver(() => {
       const { width, height } = el.getBoundingClientRect();
-      setContainerSize(Math.min(width * 0.3, height)); // <= AQUÍ tienes el valor correcto
+      setContainerSize(Math.min(width * 0.3, height));
     });
 
     resizeObserver.observe(el);
