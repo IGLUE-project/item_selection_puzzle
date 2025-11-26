@@ -23,20 +23,81 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   const [roundSelections, setRoundSelections] = useState(() => rounds.map(() => []));
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const containerRef = useRef(null);
+  const [itemSize, setItemSize] = useState(0);
+  const [titleFontSize, setTitleFontSize] = useState(20);
+  const titleRef = useRef(null);
 
   const items = rounds[currentRound] || [];
   const selectedPositions = roundSelections[currentRound] || [];
 
   const sendSound = useSound("/sounds/next_round.mp3");
   const resetSound = useSound("/sounds/reset.mp3");
+  const winSound = useSound("/sounds/win.wav");
 
   useEffect(() => {
     if (solved) {
-      //show message
+      winSound.play();
     } else {
       handleReset();
     }
   }, [solvedTrigger]);
+  useEffect(() => {
+    const el = titleRef.current;
+    if (!el) return;
+
+    const resize = () => {
+      const styles = getComputedStyle(el);
+
+      // alto real del contenedor (15% de pantalla)
+      const height = parseFloat(styles.height);
+
+      // tamaño máximo del texto según ese alto
+      const maxFont = height * 0.35; // AJUSTABLE. 0.35 queda perfecto visualmente
+
+      setTitleFontSize(maxFont);
+    };
+
+    resize();
+
+    const obs = new ResizeObserver(resize);
+    obs.observe(el);
+
+    return () => obs.disconnect();
+  }, [size.height, size.width]);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const calculate = () => {
+      const width = el.clientWidth;
+      const height = el.clientHeight;
+      const count = items.length;
+
+      let bestSize = 0;
+
+      // probamos desde 1 columna hasta nItems columnas
+      for (let cols = 1; cols <= count; cols++) {
+        const rows = Math.ceil(count / cols);
+
+        const sizeX = width / cols;
+        const sizeY = height / rows;
+
+        const size = Math.min(sizeX, sizeY); // cuadrado
+
+        if (size > bestSize) bestSize = size;
+      }
+
+      setItemSize(bestSize * 0.9);
+    };
+
+    calculate();
+
+    const resizeObserver = new ResizeObserver(calculate);
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
+  }, [items]);
 
   useEffect(() => {
     setCurrentRound(0);
@@ -110,21 +171,23 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       style={{ backgroundImage: config?.backgroundImg ? `url(${config.backgroundImg})` : "none" }}
     >
       <div className="content_wrapper">
-        <div style={{ height: size.height * 0.15 }}>
+        <div ref={titleRef} className="title_wrapper">
           {config?.title && (
-            <h1 className="title" style={{ fontSize: size.width * 0.015 + size.height * 0.05 }}>
+            <h1 className="title" style={{ fontSize: titleFontSize }}>
               {config.title}
             </h1>
           )}
+
           {config?.rounds?.length > 1 && (
-            <div className="round_indicator" style={{ fontSize: size.width * 0.005 + size.height * 0.03 }}>
+            <div className="round_indicator" style={{ fontSize: titleFontSize * 0.5 }}>
               {I18n.getTrans("i.rounds")}
               {currentRound + 1}/{rounds.length}
             </div>
           )}
         </div>
+
         {config?.instructions && <p className="instructions">{config.instructions}</p>}
-        <div ref={containerRef} className="items_wrapper" style={{ height: size.height * 0.6 }}>
+        <div ref={containerRef} className="items_wrapper" style={{ height: size.height * 0.7, gap: itemSize * 0.05 }}>
           {items.map((item, index) => (
             <Item
               key={index}
@@ -132,10 +195,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
               item={item}
               isSelected={selectedPositions.includes(index)}
               onToggle={handleToggle}
-              size={size}
-              nItems={items.length}
-              areaH={itemsAreaH}
-              containerRef={containerRef}
+              itemSize={itemSize}
             />
           ))}
         </div>
@@ -159,7 +219,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
               handleSend();
             }}
             disabled={hasSubmitted}
-            style={{ padding: "2% 10%", borderRadius: size.height * 0.01 }}
+            style={{ borderRadius: size.height * 0.01 }}
           >
             {I18n.getTrans("i.send")}
           </button>
@@ -170,7 +230,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
               handleReset();
             }}
             disabled={hasSubmitted}
-            style={{ padding: "2% 10%", borderRadius: size.height * 0.01 }}
+            style={{ borderRadius: size.height * 0.01 }}
           >
             {I18n.getTrans("i.reset")}
           </button>

@@ -2,7 +2,7 @@ div#MainScreen {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2%;
+  padding: 1%;
   box-sizing: border-box;
   background-size: cover;
   background-repeat: no-repeat;
@@ -13,8 +13,17 @@ div#MainScreen .content_wrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
+  justify-content: space-between;
 }
-
+.title_wrapper {
+  height: 15vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 div#MainScreen .title {
   margin: 0;
   text-align: center;
@@ -34,14 +43,9 @@ div#MainScreen .round_indicator {
 
 div#MainScreen .items_wrapper {
   display: flex;
-  gap: 1.5rem;
-  width: 100%;
-  flex: auto;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  align-content: center;
-  row-gap: 1.5rem;
 }
 
 div#MainScreen .controls {
@@ -56,7 +60,7 @@ div#MainScreen .controls {
 }
 
 div#MainScreen .controls__button {
-  padding: 0.85rem 1.5rem;
+  padding: 0.85em 1.5em;
   border: none;
   font-weight: 600;
   cursor: pointer;
