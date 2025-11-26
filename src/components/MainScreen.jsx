@@ -6,7 +6,7 @@ import { GlobalContext } from "./GlobalContext";
 import "./../assets/scss/MainScreen.scss";
 
 export default function MainScreen({ config, sendResult, submitPuzzleSolution, solved, solvedTrigger }) {
-  const { I18n } = useContext(GlobalContext);
+  const { escapp, I18n } = useContext(GlobalContext);
   const rounds = useMemo(() => {
     if (Array.isArray(config?.rounds) && config.rounds.length > 0) {
       return config.rounds;
@@ -35,10 +35,16 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   const winSound = useSound("/sounds/win.wav");
 
   useEffect(() => {
+    if(solvedTrigger < 1){
+      return;
+    }
     if (solved) {
       winSound.play();
     } else {
-      handleReset();
+      escapp.displayCustomDialog(config.errorDialogTitle,config.errorDialogMessage,{},function(){
+        //On close dialog callback
+        handleReset();
+      });
     }
   }, [solvedTrigger]);
 

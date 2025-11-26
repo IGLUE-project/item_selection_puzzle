@@ -5,6 +5,8 @@ export let ESCAPP_APP_SETTINGS = {
   // backgroundImg: "", //background can be "NONE" or a URL.
   message: "¡Has superado el reto! presiona continuar para seguir jugando.",
   title: "selecciona los items correctos",
+  errorDialogTitle: "Error",
+  errorDialogMessage: "La seleción de elementos no es correcta.",
   actionAfterSolve: "SHOW_MESSAGE", //actionAfterSolve can be "NONE" or "SHOW_MESSAGE".
   //Settings that will be automatically specified by the Escapp server
   rounds: [
