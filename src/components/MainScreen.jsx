@@ -35,13 +35,13 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   const winSound = useSound("/sounds/win.wav");
 
   useEffect(() => {
-    if(solvedTrigger < 1){
+    if (solvedTrigger < 1) {
       return;
     }
     if (solved) {
       winSound.play();
     } else {
-      escapp.displayCustomDialog(config.errorDialogTitle,config.errorDialogMessage,{},function(){
+      escapp.displayCustomDialog(config.errorDialogTitle, config.errorDialogMessage, {}, function () {
         //On close dialog callback
         handleReset();
       });
@@ -133,6 +133,14 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     setHasSubmitted(false);
     resetSound.play();
   };
+  const handleReturn = () => {
+    if (currentRound === 0) return;
+
+    setRoundSelections((prev) => prev.map((sel, index) => (index === currentRound ? [] : sel)));
+
+    setCurrentRound(currentRound - 1);
+    resetSound.play();
+  };
 
   const handleSend = () => {
     if (hasSubmitted) {
@@ -205,22 +213,24 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
             onClick={() => {
               handleSend();
             }}
-            disabled={hasSubmitted}
+            disabled={hasSubmitted || roundSelections[currentRound].length === 0}
             style={{ borderRadius: size.height * 0.01 }}
           >
-            {I18n.getTrans("i.send")}
+            {currentRound === rounds.length - 1 ? I18n.getTrans("i.end") : I18n.getTrans("i.continue")}
           </button>
-          <button
-            type="button"
-            className="controls__button controls__button--reset"
-            onClick={() => {
-              handleReset();
-            }}
-            disabled={hasSubmitted}
-            style={{ borderRadius: size.height * 0.01 }}
-          >
-            {I18n.getTrans("i.reset")}
-          </button>
+          {rounds.length > 1 && (
+            <button
+              type="button"
+              className="controls__button controls__button--reset"
+              onClick={() => {
+                handleReturn();
+              }}
+              disabled={hasSubmitted || currentRound === 0}
+              style={{ borderRadius: size.height * 0.01 }}
+            >
+              {I18n.getTrans("i.return")}
+            </button>
+          )}
         </div>
       </div>
       <div className="victory">
