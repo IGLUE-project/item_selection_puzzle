@@ -12,6 +12,8 @@ export let ESCAPP_APP_SETTINGS = {
     { title: "selecciona los items correctos 2", img: "" },
     { title: "selecciona los items correctos 3", img: "" },
   ],
+  errorDialogTitle: "Error",
+  errorDialogMessage: "La seleción de elementos no es correcta.",
   actionAfterSolve: "SHOW_MESSAGE", //actionAfterSolve can be "NONE" or "SHOW_MESSAGE".
   //Settings that will be automatically specified by the Escapp server
   rounds: [
