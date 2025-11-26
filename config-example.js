@@ -4,7 +4,14 @@ export let ESCAPP_APP_SETTINGS = {
   //Settings that can be specified by the authors
   // backgroundImg: "", //background can be "NONE" or a URL.
   message: "¡Has superado el reto! presiona continuar para seguir jugando.",
-  title: "selecciona los items correctos",
+  titles: [
+    {
+      title: "selecciona los items correctos 1",
+      img: "https://cdn.pixabay.com/photo/2016/02/23/17/42/orange-1218158_1280.png",
+    },
+    { title: "selecciona los items correctos 2", img: "" },
+    { title: "selecciona los items correctos 3", img: "" },
+  ],
   actionAfterSolve: "SHOW_MESSAGE", //actionAfterSolve can be "NONE" or "SHOW_MESSAGE".
   //Settings that will be automatically specified by the Escapp server
   rounds: [

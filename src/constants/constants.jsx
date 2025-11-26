@@ -1,7 +1,7 @@
 export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   backgroundImg: "",
-  title: "selecciona los items correctos",
+  titles: [],
   rounds: [],
   message: "¡Has superado el reto! presiona continuar para seguir jugando.",
 };

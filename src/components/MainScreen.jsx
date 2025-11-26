@@ -161,20 +161,14 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       style={{ backgroundImage: config?.backgroundImg ? `url(${config.backgroundImg})` : "none" }}
     >
       <div className="content_wrapper">
-        <div ref={titleRef} className="title_wrapper">
-          {config?.title && (
+        {config?.titles[currentRound] && (
+          <div ref={titleRef} className="title_wrapper">
+            <img src={config?.titles[currentRound].img} style={{ height: titleFontSize * 3 }} />
             <h1 className="title" style={{ fontSize: titleFontSize }}>
-              {config.title}
+              {config.titles[currentRound]?.title}
             </h1>
-          )}
-
-          {config?.rounds?.length > 1 && (
-            <div className="round_indicator" style={{ fontSize: titleFontSize * 0.5 }}>
-              {I18n.getTrans("i.rounds")}
-              {currentRound + 1}/{rounds.length}
-            </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {config?.instructions && <p className="instructions">{config.instructions}</p>}
         <div ref={containerRef} className="items_wrapper" style={{ height: size.height * 0.7, gap: itemSize * 0.05 }}>
