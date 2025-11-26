@@ -1,9 +1,9 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import "./../assets/scss/MainScreen.scss";
+import useSound from "../hooks/useSound";
 import Item from "./Item";
 import MessageScreen from "./MessageScreen";
-import useSound from "../hooks/useSound";
 import { GlobalContext } from "./GlobalContext";
+import "./../assets/scss/MainScreen.scss";
 
 export default function MainScreen({ config, sendResult, submitPuzzleSolution, solved, solvedTrigger }) {
   const { I18n } = useContext(GlobalContext);
@@ -18,13 +18,13 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  const [itemsAreaH, setItemsAreaH] = useState(window.innerHeight * 0.6);
   const [currentRound, setCurrentRound] = useState(0);
   const [roundSelections, setRoundSelections] = useState(() => rounds.map(() => []));
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const containerRef = useRef(null);
   const [itemSize, setItemSize] = useState(0);
   const [titleFontSize, setTitleFontSize] = useState(20);
+
+  const containerRef = useRef(null);
   const titleRef = useRef(null);
 
   const items = rounds[currentRound] || [];
@@ -41,30 +41,27 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       handleReset();
     }
   }, [solvedTrigger]);
+
+  // Calcula el tamaño dinámico del título basado en el contenedor
   useEffect(() => {
     const el = titleRef.current;
     if (!el) return;
 
     const resize = () => {
       const styles = getComputedStyle(el);
-
-      // alto real del contenedor (15% de pantalla)
       const height = parseFloat(styles.height);
-
-      // tamaño máximo del texto según ese alto
-      const maxFont = height * 0.35; // AJUSTABLE. 0.35 queda perfecto visualmente
-
+      const maxFont = height * 0.35;
       setTitleFontSize(maxFont);
     };
 
     resize();
-
     const obs = new ResizeObserver(resize);
     obs.observe(el);
 
     return () => obs.disconnect();
   }, [size.height, size.width]);
 
+  // Calcula el tamaño óptimo de los items en función del espacio disponible
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -76,15 +73,11 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
 
       let bestSize = 0;
 
-      // probamos desde 1 columna hasta nItems columnas
       for (let cols = 1; cols <= count; cols++) {
         const rows = Math.ceil(count / cols);
-
         const sizeX = width / cols;
         const sizeY = height / rows;
-
-        const size = Math.min(sizeX, sizeY); // cuadrado
-
+        const size = Math.min(sizeX, sizeY);
         if (size > bestSize) bestSize = size;
       }
 
@@ -92,7 +85,6 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     };
 
     calculate();
-
     const resizeObserver = new ResizeObserver(calculate);
     resizeObserver.observe(el);
 
@@ -107,12 +99,12 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      setItemsAreaH(height * 0.6);
-      setSize({ width, height });
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
     };
+
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -146,20 +138,18 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       return;
     }
 
-    if (typeof sendResult === "function") {
-      const formatted = roundSelections
-        .map((positions, roundIndex) => {
-          const currentPositions = roundIndex === currentRound ? selectedPositions : positions;
-          const ordered = [...currentPositions].sort((a, b) => a - b);
-          if (ordered.length === 0) {
-            return "";
-          }
-          return ordered.map((position) => String(position + 1)).join(",");
-        })
-        .join(";")
-        .replace(/;+$/, "");
-      sendResult(formatted);
-    }
+    const formatted = roundSelections
+      .map((positions, roundIndex) => {
+        const currentPositions = roundIndex === currentRound ? selectedPositions : positions;
+        const ordered = [...currentPositions].sort((a, b) => a - b);
+        if (ordered.length === 0) {
+          return "";
+        }
+        return ordered.map((position) => String(position + 1)).join(",");
+      })
+      .join(";")
+      .replace(/;+$/, "");
+    sendResult(formatted);
 
     setHasSubmitted(true);
   };
@@ -202,10 +192,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
         <div
           className="controls"
           style={{
-            paddingLeft: "10%",
-            paddingRight: "10%",
-            paddingTop: size.height * 0.01,
-            paddingBottom: size.height * 0.01,
+            padding: `${size.height * 0.01}px 10%`,
             fontSize: size.height * 0.02,
             gap: size.height * 0.02,
             borderRadius: size.height * 0.02,
