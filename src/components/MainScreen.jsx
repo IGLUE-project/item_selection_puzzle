@@ -145,9 +145,9 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
         if (ordered.length === 0) {
           return "";
         }
-        return ordered.map((position) => String(position + 1)).join(",");
+        return ordered.map((position) => String(position + 1)).join(";");
       })
-      .join(";")
+      .join("&")
       .replace(/;+$/, "");
     sendResult(formatted);
 
