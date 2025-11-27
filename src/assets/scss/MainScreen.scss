@@ -23,9 +23,10 @@ div#MainScreen .content_wrapper {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: rgba(12, 26, 45, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(12, 26, 45, 0.9);
+  border: 4px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.25);
+  color: white;
 }
 
 div#MainScreen .title {
@@ -59,11 +60,13 @@ div#MainScreen .controls {
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.25);
+  color: white;
 }
 
 div#MainScreen .controls__button {
   padding: 0.85em 1.5em;
   border: none;
+  font-size: clamp(0.5rem, 3vmin, 3rem);
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
@@ -73,19 +76,19 @@ div#MainScreen .controls__button {
 }
 
 div#MainScreen .controls__button--send {
-  background: linear-gradient(135deg, #00b4d8, #90e0ef);
-  color: #062045;
+  background: #fff;
+  color: #000;
 }
 
 div#MainScreen .controls__button--reset {
-  background: rgba(255, 255, 255, 0.18);
-  color: #f5f7ff;
+  background: #fff;
+  color: #000;
   border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 div#MainScreen .controls__button:hover,
 div#MainScreen .controls__button:focus-visible {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.3);
 }
 
@@ -94,6 +97,15 @@ div#MainScreen .controls__button:disabled {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+div.MessageScreen {
+  color: #fff;
+}
+
+div.MessageScreen button {
+  background: #fff;
+  color: #000;
 }
 
 .victory {
@@ -108,7 +120,7 @@ div#MainScreen .controls__button:disabled {
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
-  background: rgba(12, 26, 45, 0.6);
+  background: rgba(12, 26, 45, 0.9);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.25);

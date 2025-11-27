@@ -96,11 +96,11 @@ export default function App() {
     //Init internacionalization module
     I18n.init(_appSettings);
 
-    if (typeof _appSettings.errorDialogTitle !== "string") {
-      _appSettings.errorDialogTitle = I18n.getTrans("i.errorDialogTitle");
+    if (typeof _appSettings.successMessage !== "string") {
+      _appSettings.successMessage = I18n.getTrans("i.successMessage");
     }
-    if (typeof _appSettings.errorDialogMessage !== "string") {
-      _appSettings.errorDialogMessage = I18n.getTrans("i.errorDialogMessage");
+    if (typeof _appSettings.failureMessage !== "string") {
+      _appSettings.failureMessage = I18n.getTrans("i.failureMessage");
     }
 
     //Change HTTP protocol to HTTPs in URLs if necessary
