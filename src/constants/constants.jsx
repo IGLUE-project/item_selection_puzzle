@@ -1,6 +1,7 @@
 export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   backgroundImg: "",
+  actionAfterSolve: "SHOW_MESSAGE",
   rounds: [],
 };
 
