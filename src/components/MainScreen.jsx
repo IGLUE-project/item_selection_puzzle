@@ -56,8 +56,12 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     const resize = () => {
       const styles = getComputedStyle(el);
       const height = parseFloat(styles.height);
-      const maxFont = height * 0.35;
-      setTitleFontSize(maxFont);
+      const width = parseFloat(styles.width);
+      const maxFontByHeight = height * 0.35;
+      const maxFontByWidth = width * 0.09;
+      console.log({ maxFontByHeight, maxFontByWidth });
+      const finalSize = Math.min(maxFontByHeight, maxFontByWidth);
+      setTitleFontSize(finalSize);
     };
 
     resize();
@@ -176,7 +180,16 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     >
       <div className="content_wrapper">
         {config?.titles[currentRound] && (
-          <div ref={titleRef} className="title_wrapper">
+          <div
+            ref={titleRef}
+            className="title_wrapper"
+            style={{
+              padding: `${size.height * 0.02}px`,
+              fontSize: size.height * 0.02,
+              gap: size.height * 0.02,
+              borderRadius: size.height * 0.02,
+            }}
+          >
             <img src={config?.titles[currentRound].img} style={{ height: titleFontSize * 3 }} />
             <h1 className="title" style={{ fontSize: titleFontSize }}>
               {config.titles[currentRound]?.title}

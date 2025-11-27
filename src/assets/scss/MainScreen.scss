@@ -14,15 +14,18 @@ div#MainScreen .content_wrapper {
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+  align-items: center;
 }
 
 .title_wrapper {
   height: 15vh;
   display: flex;
-  gap: 25px;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  background: rgba(12, 26, 45, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.25);
 }
 
 div#MainScreen .title {
