@@ -5,6 +5,8 @@ import MessageScreen from "./MessageScreen";
 import { GlobalContext } from "./GlobalContext";
 import "./../assets/scss/MainScreen.scss";
 
+const messageVisible = { opacity: 1, visibility: "visible", transform: "scale(1)", zIndex: 150 };
+
 export default function MainScreen({ config, sendResult, submitPuzzleSolution, solved, solvedTrigger }) {
   const { escapp, I18n } = useContext(GlobalContext);
   const rounds = useMemo(() => {
@@ -23,6 +25,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [itemSize, setItemSize] = useState(0);
   const [titleFontSize, setTitleFontSize] = useState(20);
+  const [showMessage, setShowMessage] = useState(false);
 
   const containerRef = useRef(null);
   const titleRef = useRef(null);
@@ -38,13 +41,14 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     if (solvedTrigger < 1) {
       return;
     }
+
     if (solved) {
-      winSound.play();
+      if (config.actionAfterSolve === "SHOW_MESSAGE") {
+        setShowMessage(true);
+        winSound.play();
+      }
     } else {
-      escapp.displayCustomDialog(config.errorDialogTitle, config.errorDialogMessage, {}, function () {
-        //On close dialog callback
-        handleReset();
-      });
+      setShowMessage(true);
     }
   }, [solvedTrigger]);
 
@@ -59,7 +63,6 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       const width = parseFloat(styles.width);
       const maxFontByHeight = height * 0.35;
       const maxFontByWidth = width * 0.09;
-      console.log({ maxFontByHeight, maxFontByWidth });
       const finalSize = Math.min(maxFontByHeight, maxFontByWidth);
       setTitleFontSize(finalSize);
     };
@@ -135,6 +138,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     setCurrentRound(0);
     setRoundSelections(rounds.map(() => []));
     setHasSubmitted(false);
+    setShowMessage(false);
     resetSound.play();
   };
   const handleReturn = () => {
@@ -178,7 +182,10 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       className="screen_wrapper"
       style={{ backgroundImage: config?.backgroundImg ? `url(${config.backgroundImg})` : "none" }}
     >
-      <div className="content_wrapper">
+      <div
+        className="content_wrapper"
+        style={showMessage ? { filter: "blur(6px)", pointerEvents: "none", userSelect: "none" } : {}}
+      >
         {config?.titles[currentRound] && (
           <div
             ref={titleRef}
@@ -246,8 +253,8 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
           )}
         </div>
       </div>
-      <div className="victory">
-        <MessageScreen sendSolution={submitPuzzleSolution} />
+      <div className="victory" style={showMessage ? messageVisible : {}}>
+        <MessageScreen sendSolution={submitPuzzleSolution} resetPuzle={handleReset} solved={solved} />
       </div>
     </div>
   );

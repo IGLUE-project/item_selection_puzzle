@@ -12,12 +12,15 @@ export let ESCAPP_APP_SETTINGS = {
     { title: "selecciona los items correctos 2", img: "" },
     { title: "selecciona los items correctos 3", img: "" },
   ],
-  errorDialogTitle: "Error",
   errorDialogMessage: "La seleción de elementos no es correcta.",
   actionAfterSolve: "SHOW_MESSAGE", //actionAfterSolve can be "NONE" or "SHOW_MESSAGE".
   //Settings that will be automatically specified by the Escapp server
   rounds: [
-    [{ label: "Item 1" }, { label: "Item 2" }, { label: "Item 3" }],
+    [
+      { label: "Item 1" },
+      { img: "https://png.pngtree.com/png-clipart/20220111/original/pngtree-pear-png-image_7086642.png" },
+      { label: "Item 3" },
+    ],
     [
       { label: "Item A" },
       { label: "Item B" },
@@ -40,6 +43,7 @@ export let ESCAPP_APP_SETTINGS = {
       },
     ],
   ],
+
   //Settings that will be automatically specified by the Escapp server
   locale: "es",
 

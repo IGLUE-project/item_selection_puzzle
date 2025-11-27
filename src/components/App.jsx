@@ -15,7 +15,6 @@ export default function App() {
   const [solved, setSolved] = useState(false);
   const [parsedSolution, setParsedSolution] = useState("");
   const [solvedTrigger, setSolvedTrigger] = useState(0);
-  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     //Init Escapp client
@@ -97,11 +96,11 @@ export default function App() {
     //Init internacionalization module
     I18n.init(_appSettings);
 
-    if(typeof _appSettings.errorDialogTitle !== "string"){
-        _appSettings.errorDialogTitle = I18n.getTrans("i.errorDialogTitle");
+    if (typeof _appSettings.errorDialogTitle !== "string") {
+      _appSettings.errorDialogTitle = I18n.getTrans("i.errorDialogTitle");
     }
-    if(typeof _appSettings.errorDialogMessage !== "string"){
-        _appSettings.errorDialogMessage = I18n.getTrans("i.errorDialogMessage");
+    if (typeof _appSettings.errorDialogMessage !== "string") {
+      _appSettings.errorDialogMessage = I18n.getTrans("i.errorDialogMessage");
     }
 
     //Change HTTP protocol to HTTPs in URLs if necessary
@@ -123,9 +122,7 @@ export default function App() {
       setSolvedTrigger((prev) => prev + 1);
       if (success) {
         try {
-          if (appSettings.actionAfterSolve === "SHOW_MESSAGE") {
-            setShowMessage(true);
-          } else {
+          if (appSettings.actionAfterSolve !== "SHOW_MESSAGE") {
             submitPuzzleSolution(_solution);
           }
         } catch (e) {
@@ -151,7 +148,7 @@ export default function App() {
         appSettings !== null && typeof appSettings.skin === "string" ? appSettings.skin.toLowerCase() : ""
       }`}
     >
-      <div className={`main-background ${showMessage ? "correct" : ""}`}>
+      <div className={`main-background`}>
         {!loading && (
           <MainScreen
             config={appSettings}
