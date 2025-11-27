@@ -2,7 +2,6 @@ export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   backgroundImg: "",
   rounds: [],
-  message: "¡Has superado el reto! presiona continuar para seguir jugando.",
 };
 
 export const THEMES = {
@@ -17,12 +16,8 @@ export const THEME_ASSETS = {
     buttonAudio: "sounds/button.wav",
   },
   [THEMES.RETRO]: {
-    backgroundImg: "images/retro_bg.png",
-    torchAudio: "sounds/torch.wav",
   },
   [THEMES.FUTURISTIC]: {
-    backgroundImg: "images/futuristic_bg.png",
-    buttonAudio: "sounds/button.wav",
   },
 };
 

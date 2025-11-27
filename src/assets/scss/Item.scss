@@ -20,7 +20,7 @@
 .item-card:focus-visible {
   transform: translateY(-6px) scale(1.05);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  border-color: rgba(144, 224, 239, 0.8);
+  border-color: rgba(255, 255, 255, 1);
   background: rgba(12, 26, 45, 0.75);
 }
 
@@ -90,11 +90,11 @@
 }
 
 .item-card--selected {
-  border-color: #48cae4;
+  border-color: #fff;
   box-shadow: 0 12px 24px rgba(72, 202, 228, 0.4), 0 0 20px rgba(72, 202, 228, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   background: rgba(12, 26, 45, 0.8);
-  border-width: 5px;
+  border-width: 6px;
 }
 
 .item-card--selected:hover {

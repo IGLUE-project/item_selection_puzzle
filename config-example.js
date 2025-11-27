@@ -3,9 +3,11 @@
 export let ESCAPP_APP_SETTINGS = {
   //Settings that can be specified by the authors
   // backgroundImg: "", //background can be "NONE" or a URL.
-  message: "¡Has superado el reto! presiona continuar para seguir jugando.",
-  errorDialogMessage: "La seleción de elementos no es correcta.",
+
+  failureMessage: "La seleción de elementos no es correcta.",
+  successMessage: "La seleción de elementos es correcta.",
   actionAfterSolve: "SHOW_MESSAGE", //actionAfterSolve can be "NONE" or "SHOW_MESSAGE".
+
   rounds: [
     {
       title: "selecciona los items correctos 1",
@@ -55,7 +57,7 @@ export let ESCAPP_APP_SETTINGS = {
 
   escappClientSettings: {
     endpoint: "https://escapp.es/api/escapeRooms/id",
-    linkedPuzzleIds: [8],
+    linkedPuzzleIds: [1],
     rtc: false,
   },
 };
