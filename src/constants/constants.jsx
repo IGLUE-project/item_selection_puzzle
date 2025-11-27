@@ -1,7 +1,6 @@
 export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
   backgroundImg: "",
-  titles: [],
   rounds: [],
   message: "¡Has superado el reto! presiona continuar para seguir jugando.",
 };

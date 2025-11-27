@@ -30,8 +30,9 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   const containerRef = useRef(null);
   const titleRef = useRef(null);
 
-  const items = rounds[currentRound] || [];
+  const items = rounds[currentRound].items || [];
   const selectedPositions = roundSelections[currentRound] || [];
+  const showTitle = rounds[currentRound]?.title || rounds[currentRound]?.img;
 
   const sendSound = useSound("/sounds/next_round.mp3");
   const resetSound = useSound("/sounds/reset.mp3");
@@ -45,8 +46,8 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     if (solved) {
       if (config.actionAfterSolve === "SHOW_MESSAGE") {
         setShowMessage(true);
-        winSound.play();
       }
+      winSound.play();
     } else {
       setShowMessage(true);
     }
@@ -62,7 +63,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       const height = parseFloat(styles.height);
       const width = parseFloat(styles.width);
       const maxFontByHeight = height * 0.35;
-      const maxFontByWidth = width * 0.09;
+      const maxFontByWidth = width * 0.1;
       const finalSize = Math.min(maxFontByHeight, maxFontByWidth);
       setTitleFontSize(finalSize);
     };
@@ -143,9 +144,6 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   };
   const handleReturn = () => {
     if (currentRound === 0) return;
-
-    setRoundSelections((prev) => prev.map((sel, index) => (index === currentRound ? [] : sel)));
-
     setCurrentRound(currentRound - 1);
     resetSound.play();
   };
@@ -186,7 +184,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
         className="content_wrapper"
         style={showMessage ? { filter: "blur(6px)", pointerEvents: "none", userSelect: "none" } : {}}
       >
-        {config?.titles[currentRound] && (
+        {showTitle && (
           <div
             ref={titleRef}
             className="title_wrapper"
@@ -197,14 +195,15 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
               borderRadius: size.height * 0.02,
             }}
           >
-            <img src={config?.titles[currentRound].img} style={{ height: titleFontSize * 3 }} />
+            <img
+              src={rounds[currentRound].img}
+              style={{ height: size.height * 0.1 + size.width * 0.02, maxHeight: "12vh" }}
+            />
             <h1 className="title" style={{ fontSize: titleFontSize }}>
-              {config.titles[currentRound]?.title}
+              {rounds[currentRound]?.title}
             </h1>
           </div>
         )}
-
-        {config?.instructions && <p className="instructions">{config.instructions}</p>}
         <div ref={containerRef} className="items_wrapper" style={{ height: size.height * 0.7, gap: itemSize * 0.05 }}>
           {items.map((item, index) => (
             <Item
