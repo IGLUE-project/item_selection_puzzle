@@ -24,7 +24,6 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   const [roundSelections, setRoundSelections] = useState(() => rounds.map(() => []));
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [itemSize, setItemSize] = useState(0);
-  const [titleFontSize, setTitleFontSize] = useState(20);
   const [showMessage, setShowMessage] = useState(false);
 
   const containerRef = useRef(null);
@@ -53,28 +52,6 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       setShowMessage(true);
     }
   }, [solvedTrigger]);
-
-  // Calcula el tamaño dinámico del título basado en el contenedor
-  useEffect(() => {
-    const el = titleRef.current;
-    if (!el) return;
-
-    const resize = () => {
-      const styles = getComputedStyle(el);
-      const height = parseFloat(styles.height);
-      const width = parseFloat(styles.width);
-      const maxFontByHeight = height * 0.35;
-      const maxFontByWidth = width * 0.1;
-      const finalSize = Math.min(maxFontByHeight, maxFontByWidth);
-      setTitleFontSize(finalSize);
-    };
-
-    resize();
-    const obs = new ResizeObserver(resize);
-    obs.observe(el);
-
-    return () => obs.disconnect();
-  }, [size.height, size.width]);
 
   // Calcula el tamaño óptimo de los items en función del espacio disponible
   useEffect(() => {
@@ -191,7 +168,6 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
             className="title_wrapper"
             style={{
               padding: `${size.height * 0.02}px`,
-              fontSize: size.height * 0.02,
               gap: size.height * 0.02,
               borderRadius: size.height * 0.02,
             }}
@@ -202,7 +178,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
                 style={{ height: size.height * 0.1 + size.width * 0.02, maxHeight: "12vh" }}
               />
             )}
-            <h1 className="title" style={{ fontSize: titleFontSize }}>
+            <h1 className="title">
               {rounds[currentRound]?.title}
             </h1>
           </div>
