@@ -1,8 +1,8 @@
 import useSound from "../hooks/useSound";
 import "./../assets/scss/Item.scss";
 
-export default function Item({ index, item, isSelected, onToggle, itemSize }) {
-  const selectSound = useSound("/sounds/select_item.wav");
+export default function Item({ config, index, item, isSelected, onToggle, itemSize }) {
+  const selectSound = useSound(config.soundSelectItem);
   const hasImage = typeof item?.img === "string" && item.img.trim() !== "";
   const hasLabel = typeof item?.label === "string" && item.label.trim() !== "";
 

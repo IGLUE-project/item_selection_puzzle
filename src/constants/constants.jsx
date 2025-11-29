@@ -1,7 +1,11 @@
 export const DEFAULT_APP_SETTINGS = {
   skin: "STANDARD",
-  backgroundImg: "",
+  backgroundImg: "images/basic_bg.png",
   actionAfterSolve: "SHOW_MESSAGE",
+  soundSelectItem: "sounds/select_item.wav",
+  soundNextRound: "sounds/next_round.mp3",
+  soundReset: "sounds/reset.mp3",
+  soundWin: "sounds/win.wav",
   rounds: [],
 };
 
@@ -13,8 +17,6 @@ export const THEMES = {
 
 export const THEME_ASSETS = {
   [THEMES.STANDARD]: {
-    backgroundImg: "images/basic_bg.png",
-    buttonAudio: "sounds/button.wav",
   },
   [THEMES.RETRO]: {
   },

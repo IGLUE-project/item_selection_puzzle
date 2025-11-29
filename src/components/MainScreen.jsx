@@ -34,9 +34,9 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   const selectedPositions = roundSelections[currentRound] || [];
   const showTitle = rounds[currentRound]?.title || rounds[currentRound]?.img;
 
-  const sendSound = useSound("/sounds/next_round.mp3");
-  const resetSound = useSound("/sounds/reset.mp3");
-  const winSound = useSound("/sounds/win.wav");
+  const sendSound = useSound(config.soundNextRound);
+  const resetSound = useSound(config.soundReset);
+  const winSound = useSound(config.soundWin);
 
   useEffect(() => {
     if (solvedTrigger < 1) {
@@ -207,6 +207,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
         <div ref={containerRef} className="items_wrapper" style={{ height: size.height * 0.7, gap: itemSize * 0.05 }}>
           {items.map((item, index) => (
             <Item
+              config={config}
               key={index}
               index={index}
               item={item}
