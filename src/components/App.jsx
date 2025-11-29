@@ -103,6 +103,22 @@ export default function App() {
       _appSettings.failureMessage = I18n.getTrans("i.failureMessage");
     }
 
+    //Remove empty images
+    if (Array.isArray(_appSettings.rounds)) {
+      _appSettings.rounds.forEach(round => {
+        if ((typeof round.img !== "string")||(round.img.trim() === "")) {
+          delete round.img;
+        }
+        if (Array.isArray(round.items)) {
+          round.items.forEach(item => {
+            if ((typeof item.img !== "string")||(item.img.trim() === "")) {
+              delete item.img;
+            }
+          });
+        }
+      });
+    }
+
     //Change HTTP protocol to HTTPs in URLs if necessary
     _appSettings = Utils.checkUrlProtocols(_appSettings);
 

@@ -32,7 +32,8 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
 
   const items = rounds[currentRound].items || [];
   const selectedPositions = roundSelections[currentRound] || [];
-  const showTitle = rounds[currentRound]?.title || rounds[currentRound]?.img;
+  const showRoundTitle = rounds[currentRound]?.title || rounds[currentRound]?.img;
+  const showRoundImg = !!rounds[currentRound]?.img?.trim();
 
   const sendSound = useSound(config.soundNextRound);
   const resetSound = useSound(config.soundReset);
@@ -184,7 +185,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
         className="content_wrapper"
         style={showMessage ? { filter: "blur(6px)", pointerEvents: "none", userSelect: "none" } : {}}
       >
-        {showTitle && (
+        {showRoundTitle && (
           <div
             ref={titleRef}
             className="title_wrapper"
@@ -195,10 +196,12 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
               borderRadius: size.height * 0.02,
             }}
           >
-            <img
-              src={rounds[currentRound].img}
-              style={{ height: size.height * 0.1 + size.width * 0.02, maxHeight: "12vh" }}
-            />
+            {showRoundImg && (
+              <img
+                src={rounds[currentRound].img}
+                style={{ height: size.height * 0.1 + size.width * 0.02, maxHeight: "12vh" }}
+              />
+            )}
             <h1 className="title" style={{ fontSize: titleFontSize }}>
               {rounds[currentRound]?.title}
             </h1>
