@@ -14,10 +14,10 @@ export let LOCALES = {
     "i.failureMessage": "La seleción de elementos no es correcta.",
   },
   sr: {
-    "i.continue": "Continue",
-    "i.end": "Finish",
-    "i.return": "Back",
-    "i.successMessage": "Congratulations! The selection of elements is correct.",
-    "i.failureMessage": "The selection of elements is not correct.",
+    "i.continue": "Nastavi",
+    "i.end": "Završi",
+    "i.return": "Nazad",
+    "i.successMessage": "Čestitamo! Izbor elemenata je ispravan.",
+    "i.failureMessage": "Izbor elemenata nije ispravan.",
   },
 };
