@@ -2,6 +2,7 @@ export let LOCALES = {
   en: {
     "i.continue": "Continue",
     "i.end": "Finish",
+    "i.reset":"Reset",
     "i.return": "Back",
     "i.successMessage": "Congratulations! The selection of elements is correct.",
     "i.failureMessage": "The selection of elements is not correct.",
@@ -9,6 +10,7 @@ export let LOCALES = {
   es: {
     "i.continue": "Continuar",
     "i.end": "Terminar",
+    "i.reset":"Reiniciar",
     "i.return": "Volver",
     "i.successMessage": "¡Enhorabuena! La seleción de elementos es correcta.",
     "i.failureMessage": "La seleción de elementos no es correcta.",
@@ -16,6 +18,7 @@ export let LOCALES = {
   sr: {
     "i.continue": "Nastavi",
     "i.end": "Završi",
+    "i.reset":"Resetuj",
     "i.return": "Nazad",
     "i.successMessage": "Čestitamo! Izbor elemenata je ispravan.",
     "i.failureMessage": "Izbor elemenata nije ispravan.",
