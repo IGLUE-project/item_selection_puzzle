@@ -112,10 +112,13 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
           return positions;
         }
         let currentRoundType = rounds[currentRound].type;
-        if(currentRoundType === "SINGLE_ANSWER"){
+
+        if(currentRoundType === "SORTING_ANSWER"){
+          return positions.includes(index) ? [] : [...positions, index];
+        } else if(currentRoundType === "SINGLE_ANSWER"){
           return positions.includes(index) ? [] : [index];
         } else {
-          //MULTIPLE_ANSWER or "SORTING_ANSWER"
+          //MULTIPLE_ANSWER
           return positions.includes(index) ? positions.filter((position) => position !== index) : [...positions, index];
         }
       }),
@@ -204,7 +207,9 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
               key={index}
               index={index}
               item={item}
+              sortingIndex={selectedPositions.indexOf(index)}
               isSelected={selectedPositions.includes(index)}
+              roundType={rounds[currentRound].type}
               onToggle={handleToggle}
               itemSize={itemSize}
             />

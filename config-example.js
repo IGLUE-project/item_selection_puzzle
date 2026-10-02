@@ -10,6 +10,7 @@ export let ESCAPP_APP_SETTINGS = {
     {
       title: "Round 1: Select the correct items",
       img: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Fruit-3882_640.jpg",
+      type: "MULTIPLE_ANSWER", //type can be "SINGLE_ANSWER", "MULTIPLE_ANSWER" or "SORTING_ANSWER". Default value is "MULTIPLE_ANSWER".
       items: [
         { img: "https://upload.wikimedia.org/wikipedia/commons/d/d8/Golden_Asian_Pear.png" },
         { img: "https://upload.wikimedia.org/wikipedia/commons/8/86/Strawberry_%28transparent_background%29.png" },
@@ -34,8 +35,9 @@ export let ESCAPP_APP_SETTINGS = {
       ],
     },
     {
-      title: "Round 3: Select the correct items",
+      title: "Round 3: Select the correct item",
       img: "",
+      type: "SINGLE_ANSWER",
       items: [
         { label: "Item A" },
         { img: "https://upload.wikimedia.org/wikipedia/commons/8/86/Strawberry_%28transparent_background%29.png" },
