@@ -103,11 +103,20 @@ export default function App() {
       _appSettings.failureMessage = I18n.getTrans("i.failureMessage");
     }
 
-    //Remove empty images
+    const allowedActions = ["NONE", "SHOW_MESSAGE"];
+    if(!allowedActions.includes(_appSettings.actionAfterSolve)) {
+      _appSettings.actionAfterSolve = DEFAULT_APP_SETTINGS.actionAfterSolve;
+    }
+
+    //Fill round types and remove empty images
+    const allowedRoundTypes = ["SINGLE_ANSWER", "MULTIPLE_ANSWER", "SORTING_ANSWER"];
     if (Array.isArray(_appSettings.rounds)) {
       _appSettings.rounds.forEach(round => {
         if ((typeof round.img !== "string")||(round.img.trim() === "")) {
           delete round.img;
+        }
+        if(!allowedRoundTypes.includes(round.type)) {
+          round.type = "MULTIPLE_ANSWER";
         }
         if (Array.isArray(round.items)) {
           round.items.forEach(item => {

@@ -103,12 +103,21 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
   }, []);
 
   const handleToggle = (index) => {
+    if (solved === true) {
+      return;
+    }
     setRoundSelections((prev) =>
       prev.map((positions, roundIndex) => {
         if (roundIndex !== currentRound) {
           return positions;
         }
-        return positions.includes(index) ? positions.filter((position) => position !== index) : [...positions, index];
+        let currentRoundType = rounds[currentRound].type;
+        if(currentRoundType === "SINGLE_ANSWER"){
+          return positions.includes(index) ? [] : [index];
+        } else {
+          //MULTIPLE_ANSWER or "SORTING_ANSWER"
+          return positions.includes(index) ? positions.filter((position) => position !== index) : [...positions, index];
+        }
       }),
     );
   };
@@ -120,6 +129,7 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
     setShowMessage(false);
     resetSound.play();
   };
+
   const handleReturn = () => {
     if (currentRound === 0) return;
     setCurrentRound(currentRound - 1);
@@ -136,19 +146,23 @@ export default function MainScreen({ config, sendResult, submitPuzzleSolution, s
       return;
     }
 
-    const formatted = roundSelections
-      .map((positions, roundIndex) => {
-        const currentPositions = roundIndex === currentRound ? selectedPositions : positions;
-        const ordered = [...currentPositions].sort((a, b) => a - b);
-        if (ordered.length === 0) {
+    const formatedSolution = roundSelections.map((positions, roundIndex) => {
+        const roundType = rounds[roundIndex].type;
+        const roundPositions = (roundIndex === currentRound ? selectedPositions : positions);
+        let selectedElementsIndex;
+        if(roundType === "MULTIPLE_ANSWER"){
+          selectedElementsIndex = [...roundPositions].sort((a, b) => a - b);
+        } else {
+          //SINGLE_ANSWER or SORTING_ANSWER
+          selectedElementsIndex = roundPositions;
+        }
+        if (selectedElementsIndex.length === 0) {
           return "";
         }
-        return ordered.map((position) => String(position + 1)).join(";");
-      })
-      .join("&")
-      .replace(/;+$/, "");
-    sendResult(formatted);
-
+        return selectedElementsIndex.map((position) => String(position + 1)).join(";");
+      }).join("&").replace(/;+$/, "");
+    
+    sendResult(formatedSolution);
     setHasSubmitted(true);
   };
 
